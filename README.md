@@ -38,17 +38,18 @@
 ```
 https://reactrouter.com/en/main/start/overview
 ```
-
+- After 55:00
+  `https://www.youtube.com/watch?v=VJov5QWEKE4&t=885s`
 # 
 
 ## Router Features
 
 - NavLink
-`https://reactrouter.com/en/main/components/nav-link`
+  `https://reactrouter.com/en/main/components/nav-link`
 - Link
-`https://reactrouter.com/en/main/components/link`
+  `https://reactrouter.com/en/main/components/link`
 - loader
-`https://reactrouter.com/en/main/start/overview#data-loading`
+  `https://reactrouter.com/en/main/start/overview#data-loading`
 # 
 - if you use Outlet(App.jsx) that let you use to do nesting - Means if you want to Fix your header and footer just want to change inside things
 `https://reactrouter.com/en/main/components/outlet`
