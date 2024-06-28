@@ -1,13 +1,45 @@
+# React
+
+## Start Project
+
+`npm create vite@latest`
+
+
+## Tailwind
+
+`https://tailwindcss.com/docs/guides/vite`
+# 
+# 
+
+# Syllabus
+- Hooks
+- React Router
+
+# 
+# 
 # React Concept
 
 ### Understanding React’s Virtual DOM, Fiber, and Reconciliation
 
 - https://medium.com/@zohaibshahzad16/understanding-reacts-virtual-dom-fiber-and-reconciliation-ed6b07187728
 
+
+
 # 
 # 
 
 # React Router
+
+`npm install react-router-dom`
+
+# 
+
+### Router Documentations 
+```
+https://reactrouter.com/en/main/start/overview
+```
+
+# 
 
 ## Router Features
 
@@ -15,6 +47,12 @@
 `https://reactrouter.com/en/main/components/nav-link`
 - Link
 `https://reactrouter.com/en/main/components/link`
+- loader
+`https://reactrouter.com/en/main/start/overview#data-loading`
+# 
+- if you use Outlet(App.jsx) that let you use to do nesting - Means if you want to Fix your header and footer just want to change inside things
+`https://reactrouter.com/en/main/components/outlet`
+# 
 
 ## Router Implementation
 
@@ -62,7 +100,9 @@ function App() {
 export default App;
 
 ```
-- When you get Data from params (/user/id)
+# 
+## 
+## When you get Data from params (/user/id)
 ### user.jsx
 
 ```javascript
