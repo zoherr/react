@@ -193,19 +193,46 @@ export const UserProvider = ({ children }) => {
     };
 
     return (
-        <UserContext.Provider value={{ user, setUser, logout }}>
-            {children}
-        </UserContext.Provider>
+         <UserContext.Provider value={{ user, setUser, logout }}>
+             {children}
+         </UserContext.Provider>
     );
 };
 
 // 3
 // Custom hook to use the UserContext
-export default function useUser() {
-    return useContext(UserContext);
+ export default function useUser() {
+     return useContext(UserContext);
 }
 ```
 - Consuming the Context
 ```javascript
-const { user, setUser, logout } = useUser();
+ const { user, setUser, logout } = useUser();
+```
+# 
+
+### 3rd Method
+```javascript
+import {createContext, useContext} from "react"
+
+export const TodoContext = createContext({
+    todos: [
+        {
+            id: 1,
+            todo: " Todo msg",
+            completed: false,
+        }
+    ],
+    addTodo: (todo) => {},
+    updateTodo: (id, todo) => {},
+    deleteTodo: (id) => {},
+    toggleComplete: (id) => {}
+})
+
+
+export const useTodo = () => {
+    return useContext(TodoContext)
+}
+
+export const TodoProvider = TodoContext.Provider
 ```
