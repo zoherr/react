@@ -14,8 +14,10 @@
 
 # Syllabus
 - Hooks
+- Cutom Hooks
 - React Router
 - Context API
+- Redux - Toolkit
 
 # 
 # 
@@ -26,6 +28,80 @@
 
 - https://medium.com/@zohaibshahzad16/understanding-reacts-virtual-dom-fiber-and-reconciliation-ed6b07187728
 
+
+# 
+# Custom Hooks
+- custom hooks are JavaScript functions that allow you to reuse stateful logic between different components. They are a way to extract and share common logic without repeating code. Custom hooks follow the same rules as React hooks, and their names typically start with "use" to differentiate them from regular functions.
+
+### Creating a Custom Hook
+
+A custom hook is essentially a function that uses built-in React hooks and returns some state or behavior. Here's a basic example:
+
+#### Example: Custom Hook for Fetching Data
+
+```jsx
+import { useState, useEffect } from 'react';
+
+function useFetch(url) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const result = await response.json();
+        setData(result);
+      } catch (err) {
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchData();
+  }, [url]);
+
+  return { data, loading, error };
+}
+
+export default useFetch;
+```
+
+### Using the Custom Hook
+
+You can use the custom hook `useFetch` in any functional component:
+
+```jsx
+import React from 'react';
+import useFetch from './useFetch'; // Import the custom hook
+
+function App() {
+  const { data, loading, error } = useFetch('https://api.example.com/data');
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
+  return (
+    <div>
+      <h1>Data:</h1>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
+    </div>
+  );
+}
+
+export default App;
+```
+
+### Key Concept
+
+- **State and Effect Hooks**: Custom hooks can use `useState`, `useEffect`, and other React hooks internally.
+- **Parameterization**: Custom hooks can take parameters to make them more flexible.
+- **Return Values**: Custom hooks can return any type of value (e.g., objects, arrays) that the consuming component needs.
 
 
 # # 
@@ -236,3 +312,136 @@ export const useTodo = () => {
 
 export const TodoProvider = TodoContext.Provider
 ```
+# 
+# 
+# Redux-Toolkit
+
+### 1. What is Redux Toolkit?
+
+Redux Toolkit is the official, recommended way to write Redux logic. It simplifies configuring the store, reduces boilerplate code, and includes good defaults for common use cases.
+
+### 2. Key Concepts in Redux Toolkit
+
+- Store: The place where the entire state of your application is stored.
+- State: The data or information your application uses.
+- Action: An object that describes a change you want to make to the state.
+- Reducer: A function that takes the current state and an action, then returns the new state.
+- Slice: A collection of Redux reducer logic and actions for a single feature of your app.
+
+### 3. Setting Up Redux Toolkit
+
+First, let's set up a simple React application and install Redux Toolkit.
+
+```bash
+npm install @reduxjs/toolkit react-redux
+```
+
+### 4. Creating a Slice
+
+A slice contains the logic for a specific feature of your app. For example, let's create a counter slice.
+
+src/features/counter/counterSlice.js
+
+```javascript
+import { createSlice } from '@reduxjs/toolkit';
+
+export const counterSlice = createSlice({
+  name: 'counter',
+  initialState: {
+    value: 0,
+  },
+  reducers: {
+    increment: (state) => {
+      state.value += 1;
+    },
+    decrement: (state) => {
+      state.value -= 1;
+    },
+    incrementByAmount: (state, action) => {
+      state.value += action.payload;
+    },
+  },
+});
+
+export const { increment, decrement, incrementByAmount } = counterSlice.actions;
+
+export default counterSlice.reducer;
+```
+
+### 5. Configuring the Store
+
+Next, configure the store to use the counter slice reducer.
+
+src/app/store.js
+
+```javascript
+import { configureStore } from '@reduxjs/toolkit';
+import counterReducer from '../features/counter/counterSlice';
+
+export const store = configureStore({
+  reducer: {
+    counter: counterReducer,
+  },
+});
+```
+
+### 6. Setting Up the Provider
+
+Wrap your application with the Redux Provider and pass the store to it.
+
+src/index.js
+
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from './App';
+import { Provider } from 'react-redux';
+import { store } from './app/store';
+
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+);
+```
+
+### 7. Using the Redux State and Actions in Components
+
+Now you can use the Redux state and actions in your components using hooks provided by React-Redux.
+
+src/App.js
+
+```javascript
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { increment, decrement, incrementByAmount } from './features/counter/counterSlice';
+
+function App() {
+  const count = useSelector((state) => state.counter.value);
+  const dispatch = useDispatch();
+
+  return (
+    <div className="App">
+      <header className="App-header">
+        <h1>Counter: {count}</h1>
+        <button onClick={() => dispatch(increment())}>Increment</button>
+        <button onClick={() => dispatch(decrement())}>Decrement</button>
+        <button onClick={() => dispatch(incrementByAmount(5))}>Increment by 5</button>
+      </header>
+    </div>
+  );
+}
+
+export default App;
+```
+
+### Summary
+
+1. Install Redux Toolkit and React-Redux.
+2. Create a slice with `createSlice`.
+3. Configure the store with `configureStore`.
+4. Wrap your app with the `Provider` and pass the store.
+5. Use Redux state and actions in your components with `useSelector` and `useDispatch`.
+
