@@ -29,6 +29,136 @@
 - https://medium.com/@zohaibshahzad16/understanding-reacts-virtual-dom-fiber-and-reconciliation-ed6b07187728
 
 
+#
+# Hooks
+
+
+## 1. State Hooks
+   - `useState`: Allows you to add state to functional components.
+   - Example:
+     ```jsx
+     import React, { useState } from 'react';
+
+     function Counter() {
+       const [count, setCount] = useState(0);
+
+       return (
+         <div>
+           <p>You clicked {count} times</p>
+           <button onClick={() => setCount(count + 1)}>Click me</button>
+         </div>
+       );
+     }
+     ```
+
+## 2. Effect Hooks
+   - `useEffect`: Allows you to perform side effects in functional components (e.g., data fetching, subscriptions).
+   - Example:
+     ```jsx
+     import React, { useState, useEffect } from 'react';
+
+     function Example() {
+       const [count, setCount] = useState(0);
+
+       useEffect(() => {
+         document.title = `You clicked ${count} times`;
+       }, [count]); // Only re-run the effect if count changes
+
+       return (
+         <div>
+           <p>You clicked {count} times</p>
+           <button onClick={() => setCount(count + 1)}>Click me</button>
+         </div>
+       );
+     }
+     ```
+
+## 3. Context Hooks
+   - `useContext`: Allows you to use context to share values between components without passing props.
+   - Example:
+     ```jsx
+     import React, { useContext } from 'react';
+
+     const MyContext = React.createContext();
+
+     function Component() {
+       const value = useContext(MyContext);
+       return <div>{value}</div>;
+     }
+
+     function App() {
+       return (
+         <MyContext.Provider value="Hello, world!">
+           <Component />
+         </MyContext.Provider>
+       );
+     }
+     ```
+
+## 4. Ref Hooks
+   - `useRef`: Allows you to create a mutable object that persists across re-renders, often used for accessing DOM elements directly.
+   - Example:
+     ```jsx
+     import React, { useRef } from 'react';
+
+     function FocusInput() {
+       const inputRef = useRef(null);
+
+       const focusInput = () => {
+         inputRef.current.focus();
+       };
+
+       return (
+         <div>
+           <input ref={inputRef} type="text" />
+           <button onClick={focusInput}>Focus the input</button>
+         </div>
+       );
+     }
+     ```
+
+## 5. Memoization Hooks
+   - `useMemo`: Memoizes a computed value to optimize performance.
+   - Example:
+     ```jsx
+     import React, { useMemo } from 'react';
+
+     function ExpensiveCalculationComponent({ input }) {
+       const result = useMemo(() => {
+         // Perform an expensive calculation here
+         return input  2;
+       }, [input]);
+
+       return <div>Result: {result}</div>;
+     }
+     ```
+
+   - `useCallback`: Memoizes a callback function to optimize performance.
+   - Example:
+     ```jsx
+     import React, { useState, useCallback } from 'react';
+
+     function Button({ onClick }) {
+       return <button onClick={onClick}>Click me</button>;
+     }
+
+     function App() {
+       const [count, setCount] = useState(0);
+
+       const handleClick = useCallback(() => {
+         setCount(count + 1);
+       }, [count]);
+
+       return (
+         <div>
+           <p>You clicked {count} times</p>
+           <Button onClick={handleClick} />
+         </div>
+       );
+     }
+     ```
+
+
 # 
 # Custom Hooks
 - custom hooks are JavaScript functions that allow you to reuse stateful logic between different components. They are a way to extract and share common logic without repeating code. Custom hooks follow the same rules as React hooks, and their names typically start with "use" to differentiate them from regular functions.
